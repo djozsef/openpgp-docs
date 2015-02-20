@@ -26,6 +26,10 @@ You can skip the key generation steps if you already have a working GPG keyring 
 
 <a name="generate-keys">1. Generate keys</a>
 ----------------
+
+> **READ BEFORE YOU START:** 
+> It is strongly recommended that you do not do any key management on an online computer. Best is to set up a secure environment without any persistent storage or network connectivity (including Wifi, Bluetooth, IrDA etc.). I use a specially prepared Ubuntu Live CD to generate keys and a USB thumb drive (as key storage) that I never ever plug into any device except the computer running my Live CD. A notebook computer with an easily removable HDD and hardware radio switch is a good choice.
+
 If you have a blank OpenPGP card you should start with generating keys:
 
     $ gpg --gen-key
@@ -168,7 +172,15 @@ This is it! Now you have an OpenPGP card filled with keys and an X509 certificat
 
 <a name="set-up-eidauthenticate">Set up EIDAuthenticate</a>
 ----------------------
-Now that you have a properly configured OpenPGP card you can proceed to set up EIDAuthenticate. I will not cover this process while Vincent Le Toux from [My Smart Logon](http://www.mysmartlogon.com/) already made a pretty straightforward video presentation about it: https://www.youtube.com/watch?v=FsjlTxKL1x8
+**Install OpenPGP card middleware**
+Out of the box OpenPGP card is not recognized in Windows, so you need to download and install [OpenPGP card mini driver](http://www.mysmartlogon.com/products/openpgp-card-mini-driver.html) from My Smart Logon website. 
+To test if the mini driver is installed properly and your card can be used, open a Command Line prompt and enter:
+
+    certutil -scinfo
+
+If you see your reader and a `Card: OpenPGP card` entry, then installation went fine and you are ready to continue. A detailed mini driver test is available on [My Smart Logon website](http://www.mysmartlogon.com/test-the-presence-of-a-minidriver-or-a-csp/).
+
+Now that you have a properly configured OpenPGP card you can proceed to [obtain](http://www.mysmartlogon.com/download/#EIDAuthenticate) and set up EIDAuthenticate. I will not cover this process while Vincent Le Toux from [My Smart Logon](http://www.mysmartlogon.com/) already made a pretty straightforward video presentation about it: https://www.youtube.com/watch?v=FsjlTxKL1x8
 
 <a name="tldr">TL;DR</a>
 -----
@@ -193,4 +205,4 @@ To write the cert to the card:
 
 > Written by [Dubravszky József](https://twitter.com/djozsef), CTO at [Chili Creative Solutions](http://chilicreative.hu/).
 > Licensed under GPLv3 
-> Any comments, improvements or bug report are welcome. 
+> Any comments, improvements or bugs report are welcome. Please use [GitHub](https://github.com/djozsef/openpgp-docs/issues).
