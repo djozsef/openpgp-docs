@@ -8,7 +8,7 @@ This document will guide you trough the process of initializing a blank OpenPGP 
 **Pre-requisites:**
 
  - Blank OpenPGP card (OR access to private key backup)
- - My Smart Logon's EIDAuthenticate credential provider
+ - My Smart Logon's [EIDAuthenticate](http://www.mysmartlogon.com/products/eidauthenticate.html) credential provider
  - Ubuntu Desktop or Live CD (or any distro that you can get the tools below up and runing)
  - GnuPG v2.x 
  - up-to-date OpenSSL
@@ -191,6 +191,6 @@ To write the cert to the card:
 
 ## _ ##
 
-> Written by [Dubravszky József](https://twitter.com/djozsef), CTO at [Chili Creative Solutions](http://chilicreative.hu/).
+> Written by [Dubravszky JÃ³zsef](https://twitter.com/djozsef), CTO at [Chili Creative Solutions](http://chilicreative.hu/).
 > Licensed under GPLv3 
 > Any comments, improvements or bug report are welcome. 
