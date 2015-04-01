@@ -82,7 +82,7 @@ You will be asked for the passphrase for the key, then the type of the subkey yo
 In the next step you can select the capabilities. Use the menu to assemble the desired capability sets and select `Q` when done. You will be asked a key length and a validity period too, these must be familiar after the main key generation. 
 Repeat this step until you have 3 subkey with the following flags: `S`, `E`, `A`.
 
-> **Please not that each time you make changes to your keyring you have to save them by issuing:**
+> **Please note that each time you make changes to your keyring you have to save them by issuing:**
 
     gpg> save
 
@@ -104,7 +104,7 @@ After entering the GPG console you will see your keys listed:
     				     trust: unknown validity: unknown mode
     sub  4096R/CCCC3333  created: 2015-02-12  expires: never        usage: S
     sub  4096R/DDDD4444  created: 2015-02-12  expires: never        usage: E
-    sub  4096R/EFGH5678  created: 2015-02-12  expires: never        usage: SEA
+    sub  4096R/EFGH5678  created: 2015-02-12  expires: never        usage: A
     [unknown] (1). John Doe (jdoe) <john@doe.net>
 
 To write (and move) a key to the card first you have to select which subkey you would like to move. To do so use the `key KEYNUM` command where KEYNUM is the number of the key index counting from the top and starting with zero. So to select the Signature key in the example above I use:
@@ -114,7 +114,7 @@ To write (and move) a key to the card first you have to select which subkey you 
         				     trust: unknown validity: unknown mode
         sub* 4096R/CCCC3333  created: 2015-02-12  expires: never        usage: S
         sub  4096R/DDDD4444  created: 2015-02-12  expires: never        usage: E
-        sub  4096R/EFGH5678  created: 2015-02-12  expires: never        usage: SEA
+        sub  4096R/EFGH5678  created: 2015-02-12  expires: never        usage: A
         [unknown] (1). John Doe (jdoe) <john@doe.net>
 Note that the selected key is marked with a `*`. Now that you selected the key you want to transfer to the card, issue the actual command that does so:
 
@@ -143,8 +143,8 @@ First select your key that you want to create the certificate for. You can choos
 At the next step you will be asked for possible actions, choose  `sign, encrypt`. 
 Next you have to provide the X509 Subject Name in the standard Distinguished Names ([RFC1779](https://tools.ietf.org/rfc/rfc1779.txt)) format. In this exaple I will use:
 
-    CN=John Doe,OU=IT operations,O=Doe and Partners Ltd.,L=New York,C=US
-Do not use the `E=` and `DNS=` parts because you will be asked for them separately.
+    CN=John Doe,EMail=john@doe.net,OU=IT operations,O=Doe and Partners Ltd.,L=New York,C=US
+In your Subject Name (SN) string instead of the standard `emailAddress` parameter name use `EMail` otherwise `gpgsm` will reject the SN. Though `gpgsm` will ask for multiple e-mails, SAN's and URL's to include in the CSR, you have to put your e-mail in the Subject Name directly with `emailAddress=` to be able to request an S/MIME certificate. 
 
 If everything goes well, you should have a CSR ready for your Authentication key.
 
@@ -153,8 +153,8 @@ What we need is an X509 certificate in binary DER format, because that is what O
 To create a  self-signed certificate, you will need a a CA key that you can generate easily. Setting up a local CA for self-signing is out of the scope of this document, but it is well [documented](http://www.freebsdmadeeasy.com/tutorials/freebsd/create-a-ca-with-openssl.php) over the Internets. 
 
 To create your certificate signed with `CA.key` issue:
-
-    $ openssl x509 -req -days 3650 -in EFGH5678.csr -signkey CA.key -out EFGH5678.crt
+    
+    $ openssl x509 -req -in EFGH5678.csr -CA root.pem -CAkey root.key -CAcreateserial -out EFGH5678.crt -days 3650
 
 This will create the PEM certificate in `EFGH5678.crt`. You can override validity period by setting the `-days` parameter. Next step is to convert our fresh and crispy PEM certificate into binary DER format:
 
@@ -193,7 +193,8 @@ Now that you have a properly configured OpenPGP card you can proceed to [obtain]
 The most important factors to get OpenPGP card working with EIDAuthenticate:
 
  - You need to create a CSR with the `gpgsm` tool
- - Create a self signed certificate with a CA key and write it to the card in binary DER  format.
+ - have your CSR signed by a trust provier CA OR create a self-signed certificate with a separate CA key 
+ - write the certificate to the card in binary DER format.
 
 To make the CSR:
 
@@ -201,7 +202,7 @@ To make the CSR:
 
 To create the certificate:
 
-    $ openssl x509 -req -days 3650 -in EFGH5678.csr -signkey CA.key -out EFGH5678.crt
+    $ openssl x509 -req -in EFGH5678.csr -CA root.pem -CAkey root.key -CAcreateserial -out EFGH5678.crt -days 3650
 
 To convert PEM certificate to DER:
 
