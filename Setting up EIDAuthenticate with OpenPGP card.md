@@ -193,7 +193,7 @@ Now that you have a properly configured OpenPGP card you can proceed to [obtain]
 The most important factors to get OpenPGP card working with EIDAuthenticate:
 
  - You need to create a CSR with the `gpgsm` tool
- - have your CSR signed by a trust provier CA OR create a self-signed certificate with a separate CA key 
+ - have your CSR signed by a trust provier CA *OR* create a self-signed certificate with a separate CA key 
  - write the certificate to the card in binary DER format.
 
 To make the CSR:
@@ -218,5 +218,5 @@ To write the cert to the card:
 
 > Written by [Dubravszky József](https://twitter.com/djozsef), CTO at [Chili Creative Solutions](http://chilicreative.hu/).
 > Licensed under GPLv3 
-> Any comments, improvements or bugs report are welcome. Please use [GitHub](https://github.com/djozsef/openpgp-docs/issues).
+> Any comments, improvements or bugs reports are welcome. Please use [GitHub](https://github.com/djozsef/openpgp-docs/issues).
 
