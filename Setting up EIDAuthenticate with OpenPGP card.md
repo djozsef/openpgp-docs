@@ -1,7 +1,7 @@
 Setting up EIDAuthenticate with OpenPGP card
 ============================================
 
-This document will guide you trough the process of initializing a blank OpenPGP card and setting it up to be used for smart card based Windows logon with My Smart Logo EIDAuthenticate. 
+This document will guide you trough the process of initializing a blank OpenPGP card and setting it up to be used for smart card based Windows logon with MySmartLogon's EIDAuthenticate. 
 
 **[Jump to TL;DR](#tldr)**
 
@@ -218,5 +218,5 @@ To write the cert to the card:
 
 > Written by [Dubravszky József](https://twitter.com/djozsef), CTO at [Chili Creative Solutions](http://chilicreative.hu/).
 > Licensed under GPLv3 
-> Any comments, improvements or bugs reports are welcome. Please use [GitHub](https://github.com/djozsef/openpgp-docs/issues).
+> Any comments, improvements or bug reports are welcome. Please use [GitHub](https://github.com/djozsef/openpgp-docs/issues).
 
