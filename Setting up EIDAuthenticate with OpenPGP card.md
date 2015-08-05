@@ -8,8 +8,8 @@ This document will guide you trough the process of initializing a blank OpenPGP 
 **Pre-requisites:**
 
  - OpenPGP card
- - My Smart Logon's [EIDAuthenticate](http://www.mysmartlogon.com/products/eidauthenticate.html) credential provider
- - My Smart Logon [OpenPGP minidriver](http://www.mysmartlogon.com/products/openpgp-card-mini-driver.html)
+ - MySmartLogon's [EIDAuthenticate](http://www.mysmartlogon.com/products/eidauthenticate.html) credential provider
+ - MySmartLogon [OpenPGP minidriver](http://www.mysmartlogon.com/products/openpgp-card-mini-driver.html)
  - GnuPG v2.x 
  - up-to-date OpenSSL
 
@@ -22,7 +22,7 @@ This document will guide you trough the process of initializing a blank OpenPGP 
 
 You can skip the key generation steps if you already have a working GPG keyring either on your computer or your card.
 
-<a name="generate-keys">1. Generate keys</a>
+<a id="generate-keys">1. Generate keys</a>
 ----------------
 
 > **READ BEFORE YOU START:** 
@@ -47,7 +47,7 @@ Start generation:
 
 You will be asked several standard questions, starting with if you want a backup of the first encryption key. 
 
-**Generating on your computer**
+**B. Generating on your computer**
 
 When you do want to have a backup of your secret key, go for this method.
 
@@ -92,7 +92,7 @@ This is a good point where you make backups of yout GPG keyring:
     cp ~/.gnupg/pubring.gpg ~/.gnupg/pubring.gpg.backup
 
 
-<a name="write-keys-to-card">Write keys to the card</a>
+<a id="write-keys-to-card">Write keys to the card</a>
 ----------------------
 OpenPGP card has 3 key slots, each capable to store a maximum 4096 bit long key. You can store keys to these slots with the corresponding capabilities: Signature, Encrypt and Authenticate. When you add a key to your card, the secret key material is written to the corresponding card slot and removed from the local keyring, leaving a so-called *stub* in the keyring pointing to the card slot. This way each time you want to use the private key, the card is asked for.
 To add your keys to the card use the GPG console and **edit your main key**:
@@ -131,9 +131,9 @@ After a successful key transfer you should see a key list like this:
     ssb>  4096R/EFGH5678 2015-01-01
 Note that a `>` has appeared in your subkey entries, this means that your local secure keyring does not have that private key, only a stub that points to the actual private key on the your card.
 
-<a name="create-cert">Create an X509 certificate</a>
+<a id="create-cert">Create an X509 certificate</a>
 --------------------------
-Our final goal is to have an X509 certificate written to the OpenPGP card into the designated slot. But wait, GPG and X509 are two different worlds! No worries, GnuPG has the gpgsm tool that brings the two worlds closer. Among others it is capable of generating a signed CSR for your keys. 
+Our final goal is to have an X509 certificate written to the OpenPGP card into the designated slot. But wait, GPG and X509 are two different worlds! No worries, GnuPG has the `gpgsm` tool that brings the two worlds closer. Among others it is capable of generating a signed CSR for your keys. 
 
 To create the CSR issue:
 
@@ -150,7 +150,7 @@ If everything goes well, you should have a CSR ready for your Authentication key
 
 What we need is an X509 certificate in binary DER format, because that is what OpenPGP card can store in its special certificate slot. You can take your CSR to a Certificate Authority or you can sign it for yourself. Technically both works, but a CA issued certificate additionally proves your identity.
 
-To create a  self-signed certificate, you will need a a CA key that you can generate easily. Setting up a local CA for self-signing is out of the scope of this document, but it is well [documented](http://www.freebsdmadeeasy.com/tutorials/freebsd/create-a-ca-with-openssl.php) over the Internets. 
+To create a  self-signed certificate, you will need a CA key that you can generate easily. Setting up a local CA for self-signing is out of the scope of this document, but it is well [documented](http://www.freebsdmadeeasy.com/tutorials/freebsd/create-a-ca-with-openssl.php) over the Internets. 
 
 To create your certificate signed with `CA.key` issue:
     
@@ -175,19 +175,21 @@ Then use this command to write the certificate to the card:
 This is it! Now you have an OpenPGP card filled with keys and an X509 certificate of your Authentication key. 
 
  
-<a name="set-up-eidauthenticate">Set up EIDAuthenticate</a>
+<a id="set-up-eidauthenticate">Set up EIDAuthenticate</a>
 ----------------------
+
 **Install OpenPGP card middleware**
-Out of the box OpenPGP card is not recognized in Windows, so you need to download and install [OpenPGP card mini driver](http://www.mysmartlogon.com/products/openpgp-card-mini-driver.html) from My Smart Logon website. 
+
+Out of the box OpenPGP card is not recognized in Windows, so you need to download and install [OpenPGP card mini driver](http://www.mysmartlogon.com/products/openpgp-card-mini-driver.html) from MySmartLogon's website. 
 To test if the mini driver is installed properly and your card can be used, open a Command Line prompt and enter:
 
     certutil -scinfo
 
-If you see your reader and a `Card: OpenPGP card` entry, then installation went fine and you are ready to continue. A detailed mini driver test is available on [My Smart Logon website](http://www.mysmartlogon.com/test-the-presence-of-a-minidriver-or-a-csp/).
+If you see your reader and a `Card: OpenPGP card` entry, then installation went fine and you are ready to continue. A detailed mini driver test is available on [MySmartLogon's website](http://www.mysmartlogon.com/test-the-presence-of-a-minidriver-or-a-csp/).
 
-Now that you have a properly configured OpenPGP card you can proceed to [obtain](http://www.mysmartlogon.com/download/#EIDAuthenticate) and set up EIDAuthenticate. I will not cover this process while Vincent Le Toux from [My Smart Logon](http://www.mysmartlogon.com/) already made a pretty straightforward video presentation about it: https://www.youtube.com/watch?v=FsjlTxKL1x8
+Now that you have a properly configured OpenPGP card you can proceed to [obtain](http://www.mysmartlogon.com/download/#EIDAuthenticate) and set up EIDAuthenticate. I will not cover this process while Vincent Le Toux from [MySmartLogon](http://www.mysmartlogon.com/) already made a pretty straightforward video presentation about it: https://www.youtube.com/watch?v=FsjlTxKL1x8
 
-<a name="tldr">TL;DR</a>
+<a id="tldr">TL;DR</a>
 -----
 
 The most important factors to get OpenPGP card working with EIDAuthenticate:
@@ -216,7 +218,6 @@ To write the cert to the card:
 
 ## _ ##
 
-> Written by [Dubravszky József](https://twitter.com/djozsef), CTO at [Chili Creative Solutions](http://chilicreative.hu/).
-> Licensed under GPLv3 
+> Written by [Dubravszky József](https://twitter.com/djozsef), CTO at [Chili Creative Solutions](http://chilicreative.hu/). 
+> Licensed under GPLv3. <br> 
 > Any comments, improvements or bug reports are welcome. Please use [GitHub](https://github.com/djozsef/openpgp-docs/issues).
-
