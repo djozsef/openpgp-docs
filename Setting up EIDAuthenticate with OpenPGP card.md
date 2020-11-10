@@ -141,10 +141,15 @@ To create the CSR issue:
 
 First select your key that you want to create the certificate for. You can choose to use a secret key on your local keyring or a key stored on your card.  If you choose `Existing key` you have to enter the keygrip (key ID) of the subkey that you want to create a CSR for. If you choose `Existing key from card`, you have to select the card key. 
 At the next step you will be asked for possible actions, choose  `sign, encrypt`. 
-Next you have to provide the X509 Subject Name in the standard Distinguished Names ([RFC1779](https://tools.ietf.org/rfc/rfc1779.txt)) format. In this exaple I will use:
+Next you have to provide the X509 Subject Name in the standard Distinguished Names ([RFC1779](https://tools.ietf.org/rfc/rfc1779.txt)) format. In this example I will use:
 
     CN=John Doe,EMail=john@doe.net,OU=IT operations,O=Doe and Partners Ltd.,L=New York,C=US
-In your Subject Name (SN) string instead of the standard `emailAddress` parameter name use `EMail` otherwise `gpgsm` will reject the SN. Though `gpgsm` will ask for multiple e-mails, SAN's and URL's to include in the CSR, you have to put your e-mail in the Subject Name directly with `emailAddress=` to be able to request an S/MIME certificate. 
+In your Subject Name (SN) string instead of the standard `emailAddress` parameter name use `EMail` otherwise `gpgsm` will reject the SN. Though `gpgsm` will ask for multiple e-mails, SAN's and URL's to include in the CSR, you have to put your e-mail in the Subject Name directly with `emailAddress=` to be able to request an S/MIME certificate.
+You will be asked if you want to create a self-signed certificate:
+
+    Create self-signed certificate? (y/N) n
+    
+Answer `n` (No), because we want a CSR not an actual certificate.
 
 If everything goes well, you should have a CSR ready for your Authentication key.
 
